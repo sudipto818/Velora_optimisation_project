@@ -1,4 +1,4 @@
-# Kriti2026 Project
+# Velora Optimisation Project
 
 
 ## Overview
@@ -40,16 +40,18 @@ Employees get a dedicated dashboard that keeps them informed about their daily c
 ## Folder Structure
 
 ```
-kriti2026/
+Velora_optimisation_project/
+├── .gitignore             # Files and folders excluded from Git
+├── README.md              # This file
 ├── node-backend/          # Node.js backend application
 │   ├── controllers/       # API controllers for different modules
-│   ├── middleware/        # Authentication and other middleware
+│   ├── middleware/         # Authentication and other middleware
 │   ├── modules/           # Database schemas and models
 │   ├── routes/            # API route definitions
-│   ├── uploads/           # File upload directory
 │   ├── utils/             # Utility functions (DB connection, multer)
 │   ├── index.js           # Main server file
 │   ├── package.json       # Node.js dependencies and scripts
+│   ├── .env.example       # Environment variable template (safe to share)
 │   └── README.md          # Backend-specific documentation
 ├── opti-backend/          # Python optimization backend
 │   ├── dynamic.py         # Dynamic optimization logic
@@ -58,8 +60,7 @@ kriti2026/
 │   ├── metrics.py         # Performance metrics
 │   ├── models.py          # Data models
 │   ├── solver.py          # Optimization solver
-│   ├── requirements.txt   # Python dependencies
-│   └── README.md          # Optimization backend documentation
+│   └── requirements.txt   # Python dependencies
 └── web-frontend/          # React frontend application
     ├── public/            # Static assets
     ├── src/               # Source code
@@ -68,18 +69,33 @@ kriti2026/
     │   └── utils/         # Frontend utilities
     ├── package.json       # Frontend dependencies and scripts
     ├── vite.config.js     # Vite configuration
+    ├── .env.example       # Environment variable template (safe to share)
     └── README.md          # Frontend documentation
 ```
+
+## What Is Included in This Repository
+
+| Included ✅ | Purpose |
+|---|---|
+| `node-backend/` | All backend source code, routes, controllers, schemas |
+| `opti-backend/` | All Python optimization source code |
+| `web-frontend/` | All React frontend source code |
+| `README.md` | Project documentation |
+| `.gitignore` | Keeps secrets and generated files out of Git |
+| `.env.example` files | Templates showing required environment variables |
+
+
 
 ## Prerequisites
 
 Before running the project, ensure you have the following installed:
 
-- **Node.js** (version 16 or higher) - Download from [nodejs.org](https://nodejs.org/)
-- **Python** (version 3.8 or higher) - Download from [python.org](https://www.python.org/)
+- **Node.js** (version 16 or higher) — [nodejs.org](https://nodejs.org/)
+- **Python** (version 3.8 or higher) — [python.org](https://www.python.org/)
 - **npm** (comes with Node.js)
 - **pip** (Python package installer)
-- **Git** (for cloning repositories if needed)
+- **MongoDB** (local or cloud via [MongoDB Atlas](https://www.mongodb.com/atlas))
+- **Git** (for cloning the repository)
 
 ## Installation and Setup
 
@@ -87,23 +103,38 @@ Before running the project, ensure you have the following installed:
 
 ```bash
 git clone <repository-url>
-cd kriti2026
+cd Velora_optimisation_project
 ```
 
 ### 2. Node.js Backend Setup
-
-Navigate to the backend directory and install dependencies:
 
 ```bash
 cd node-backend
 npm install
 ```
 
-Configure your database connection in `utils/DB.js` and set up environment variables as needed.
+Create a `.env` file by copying the template and filling in your values:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` with your actual credentials:
+
+```env
+JWT_SECRET="your_secret_token"
+PORT=3000
+MONGO_URI="your_mongodb_connection_string"
+GOOGLE_CLIENT_ID="your_google_client_id"
+GOOGLE_CLIENT_SECRET="your_google_client_secret"
+OPTI_URL="http://localhost:8000"
+FRONTEND_URL="http://localhost:5173"
+CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
+CLOUDINARY_API_KEY="your_cloudinary_api_key"
+CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
+```
 
 ### 3. Python Optimization Backend Setup
-
-Navigate to the optimization backend directory and install dependencies:
 
 ```bash
 cd ../opti-backend
@@ -112,58 +143,63 @@ pip install -r requirements.txt
 
 ### 4. Web Frontend Setup
 
-Navigate to the frontend directory and install dependencies:
-
 ```bash
 cd ../web-frontend
 npm install
 ```
 
+Create a `.env` file by copying the template:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env`:
+
+```env
+VITE_BACKEND_URL=http://localhost:3000
+```
+
 ## Running the Project
 
-### Start the Node.js Backend
+You need **three separate terminals** to run all services simultaneously.
+
+### Terminal 1 — Node.js Backend
 
 ```bash
 cd node-backend
 npm start
 ```
 
-The backend server will typically run on `http://localhost:3000` (check `index.js` for the exact port).
+Runs on `http://localhost:3000`.
 
-### Start the Python Optimization Backend
+### Terminal 2 — Python Optimization Backend
 
 ```bash
 cd opti-backend
-python main.py
+uvicorn main:app --reload --port 8000
 ```
 
-The optimization service will run on its configured port (check `main.py` for details).
+Runs on `http://localhost:8000`.
 
-### Start the Web Frontend
+### Terminal 3 — Web Frontend
 
 ```bash
 cd web-frontend
 npm run dev
 ```
 
-The frontend will be available at `http://localhost:5173` (default Vite port).
-
-### Running All Services
-
-To run the entire application, you'll need to start all three components in separate terminals:
-
-1. Terminal 1: Node.js backend
-2. Terminal 2: Python optimization backend
-3. Terminal 3: Web frontend
+Runs on `http://localhost:5173`. Open this URL in your browser.
 
 ## Usage
 
-- Access the web application through your browser at the frontend URL.
+- Access the web application through your browser at `http://localhost:5173`.
 - The frontend communicates with the Node.js backend for data operations.
 - Optimization tasks are handled by the Python backend.
 
 ## Development Guidelines
 
-- Ensure all services are running before testing the full application.
+- Ensure all three services are running before testing the full application.
+- **Never commit `.env` files.** Use `.env.example` as a reference.
 - Check individual README files in each component folder for component-specific instructions.
-- Use the provided test files (e.g., `test_endpoints.js`, `test-api-routes.js`) for API testing.
+- Use the provided test files (e.g., `test_endpoints.js`) for API testing.
